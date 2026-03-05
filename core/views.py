@@ -132,6 +132,21 @@ class SelectEmpresaView(APIView):
         })
 
 
+class MisEmpresasView(APIView):
+    """
+    Endpoint: GET /api/mis-empresas/
+    Devuelve la lista de empresas a las que el usuario tiene acceso.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        pertenencias = Pertenencia.objects.filter(usuario=request.user)
+        empresas = [p.empresa for p in pertenencias]
+        return Response({
+            'empresas_disponibles': EmpresaSerializer(empresas, many=True).data
+        })
+
+
 # ==============================================================================
 # 3. ADMINISTRACIÓN DELEGADA
 # ==============================================================================

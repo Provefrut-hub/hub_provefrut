@@ -113,6 +113,11 @@ export const authService = {
         return response.data;
     },
 
+    getMisEmpresas: async () => {
+        const response = await api.get('mis-empresas/');
+        return response.data;
+    },
+
     requestPasswordReset: async (email) => {
         const response = await api.post('password-reset/', { email });
         return response.data;

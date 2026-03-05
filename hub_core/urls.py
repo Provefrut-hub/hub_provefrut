@@ -17,7 +17,8 @@ from django.urls import path
 # Importamos las vistas del núcleo de negocio
 from core.views import (
     CustomLoginView, 
-    SelectEmpresaView, 
+    SelectEmpresaView,
+    MisEmpresasView,
     DelegarPermisosView, 
     PasswordResetRequestView, 
     PasswordResetConfirmView,
@@ -43,6 +44,9 @@ urlpatterns = [
     
     # Paso B: Selección de Empresa -> Devuelve Token Final (Con Permisos)
     path('api/select-empresa/', SelectEmpresaView.as_view(), name='select_empresa'),
+    
+    # Obtener empresas disponibles del usuario actual
+    path('api/mis-empresas/', MisEmpresasView.as_view(), name='mis_empresas'),
 
 
     # ==========================================================================

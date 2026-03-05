@@ -84,6 +84,28 @@
     }
 }
 
+/* Pseudo-elemento para la media luna con cambio de colores */
+.login-visual-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, transparent 0%, currentColor 100%);
+    color: #78b21f; /* Color inicial: verde Provefrut */
+    animation: cambioColorMediaLuna 9s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes cambioColorMediaLuna {
+    0%   { color: #78b21f; } /* Verde Provefrut */
+    33%  { color: #23b7e5; } /* Azul Procongelados */
+    66%  { color: #9b59b6; } /* Morado Nintanga */
+    100% { color: #78b21f; } /* Verde Provefrut */
+}
+
 /* El Overlay es clave: Oscuro y elegante */
 .visual-overlay {
     position: absolute;
@@ -96,6 +118,7 @@
     justify-content: space-between;
     padding: 2rem;
     color: white;
+    z-index: 2; /* Por encima de la media luna */
 }
 
 /* Responsive padding para visual overlay */
@@ -117,6 +140,12 @@
     }
 }
 
+@media (min-width: 1600px) {
+    .visual-overlay {
+        padding: 6rem;
+    }
+}
+
 .visual-content {
     margin-top: auto;
     margin-bottom: 2rem;
@@ -130,13 +159,19 @@
 
 @media (min-width: 1200px) {
     .visual-content {
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
     }
 }
 
 @media (min-width: 1440px) {
     .visual-content {
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+    }
+}
+
+@media (min-width: 1600px) {
+    .visual-content {
+        margin-bottom: 3.5rem;
     }
 }
 
@@ -189,18 +224,34 @@
 }
 
 .visual-divider {
-    width: 250px;
+    width: 180px;
     height: 4px;
     background: #78b21f;
-    margin-bottom: 3rem; /* Más espacio para que quede sobre los logos */
+    margin-bottom: 2rem;
     border-radius: 2px;
 }
 
 @media (min-width: 1200px) {
     .visual-divider {
+        width: 220px;
+        height: 4px;
+        margin-bottom: 2.5rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    .visual-divider {
+        width: 250px;
+        height: 5px;
+        margin-bottom: 3rem;
+    }
+}
+
+@media (min-width: 1600px) {
+    .visual-divider {
         width: 280px;
         height: 5px;
-        margin-bottom: 4rem; /* Más espacio en pantallas grandes */
+        margin-bottom: 3.5rem;
     }
 }
 
@@ -242,16 +293,34 @@
     }
 }
 
+@media (min-width: 1600px) {
+    .visual-footer {
+        padding-bottom: 1rem;
+    }
+}
+
 .logos-group-img {
     max-width: 100%;
     height: auto;
-    max-height: 50px;
+    max-height: 40px;
     object-fit: contain;
     opacity: 0.9;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
 
 @media (min-width: 1200px) {
+    .logos-group-img {
+        max-height: 45px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .logos-group-img {
+        max-height: 50px;
+    }
+}
+
+@media (min-width: 1600px) {
     .logos-group-img {
         max-height: 55px;
     }

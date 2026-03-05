@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { authService } from '../services/api';
@@ -19,34 +19,72 @@ const DashboardPage = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('access_token');
-        const listaEmpresas = localStorage.getItem('empresas_disponibles');
 
         if (!token) { navigate('/login'); return; }
 
-        try {
-            const decoded = jwtDecode(token);
-            setUser(decoded);
-            if (listaEmpresas) setEmpresas(JSON.parse(listaEmpresas));
+        const cargarDatos = async () => {
+            try {
+                const decoded = jwtDecode(token);
+                setUser(decoded);
+                
+                console.log("Usuario decodificado:", decoded);
+                console.log("Empresa actual:", decoded.empresa_id, decoded.empresa_nombre);
+                
+                // SIEMPRE obtener empresas del backend para tener datos actualizados
+                console.log("Obteniendo empresas del backend...");
+                try {
+                    const data = await authService.getMisEmpresas();
+                    console.log("Empresas desde backend:", data.empresas_disponibles);
+                    setEmpresas(data.empresas_disponibles);
+                    // Actualizar localStorage con datos frescos
+                    localStorage.setItem('empresas_disponibles', JSON.stringify(data.empresas_disponibles));
+                } catch (error) {
+                    console.error("Error obteniendo empresas:", error);
+                    // Fallback: intentar usar localStorage si falla el backend
+                    const listaEmpresas = localStorage.getItem('empresas_disponibles');
+                    if (listaEmpresas) {
+                        console.log("Usando empresas de localStorage como fallback");
+                        setEmpresas(JSON.parse(listaEmpresas));
+                    }
+                }
 
-            // APLICAR TEMA DINÁMICO
-            const color = themeColors[decoded.empresa_codigo] || themeColors['default'];
-            document.documentElement.style.setProperty('--primary', color);
-            document.documentElement.style.setProperty('--primary-hover', adjustColor(color, -20)); // Oscurecer
+                // APLICAR TEMA DINÁMICO
+                const color = themeColors[decoded.empresa_codigo] || themeColors['default'];
+                document.documentElement.style.setProperty('--primary', color);
+                document.documentElement.style.setProperty('--primary-hover', adjustColor(color));
 
-        } catch (error) {
-            navigate('/login');
-        }
+            } catch (error) {
+                console.error("Error decodificando token:", error);
+                navigate('/login');
+            }
+        };
+
+        cargarDatos();
     }, [navigate]);
 
     const handleCambioEmpresa = async (event) => {
         const nuevaEmpresaId = event.target.value;
-        const tempToken = localStorage.getItem('temp_token'); 
+        const currentToken = localStorage.getItem('access_token'); 
+        
+        console.log("Intentando cambiar a empresa ID:", nuevaEmpresaId);
+        console.log("Token actual existe:", !!currentToken);
+        
+        if (!currentToken) {
+            alert("Sesión expirada. Por favor, inicia sesión nuevamente.");
+            navigate('/login');
+            return;
+        }
+        
         try {
-            const data = await authService.selectEmpresa(nuevaEmpresaId, tempToken);
+            console.log("Llamando a selectEmpresa...");
+            const data = await authService.selectEmpresa(nuevaEmpresaId, currentToken);
+            console.log("Respuesta recibida:", data);
             localStorage.setItem('access_token', data.access_token);
             window.location.reload(); // Recarga para aplicar tema nuevo limpiamente
         } catch (error) {
-            alert("Error al cambiar empresa");
+            console.error("Error completo al cambiar empresa:", error);
+            console.error("Respuesta del servidor:", error.response?.data);
+            alert(`Error al cambiar empresa: ${error.response?.data?.error || error.message}`);
         }
     };
 
@@ -71,8 +109,8 @@ const DashboardPage = () => {
     // 3. Construcción: Asegura el protocolo. Si tu variable .env NO tiene https, esto lo arregla en código.
     const finalUrl = cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`;
 
-    // 4. Ejecución: Abre la aplicación en la misma pestaña (reemplaza el Hub)
-    window.location.href = `${finalUrl}/sso-login/#token=${token}`;
+    // 4. Ejecución: Abre la aplicación en una nueva pestaña (mantiene el Hub abierto)
+    window.open(`${finalUrl}/sso-login/#token=${token}`, '_blank');
 };
 
     if (!user) return null;
@@ -115,6 +153,7 @@ const DashboardPage = () => {
                         <div className="user-info">
                             <span className="name">{user.nombre_completo}</span>
                             <span className="role">{user.rol_nombre}</span>
+                            <span className="logout-text">Cerrar Sesión</span>
                         </div>
                     </div>
                 </div>
@@ -204,7 +243,7 @@ const AppCard = ({ title, desc, icon, active, onClick, color }) => (
 );
 
 // Helper simple para oscurecer color (para hover)
-function adjustColor(color, amount) {
+function adjustColor(color) {
     return color; // Simplificado para este ejemplo, idealmente usar una lib pequeña
 }
 
