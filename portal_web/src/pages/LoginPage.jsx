@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { authService } from '../services/api';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import '../styles/LoginNew.css';
-import logosWhite from '../assets/images/logos-grupo-white.png'; 
-import isotipoColor from '../assets/images/isotipoPV.png';
+import logosWhite from '../assets/images/logos-grupo-white.png';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
@@ -63,15 +62,27 @@ const LoginPage = () => {
             {/* IZQUIERDA: VISUAL & BRANDING */}
             <div className="login-visual-section">
                 <div className="visual-overlay">
+                    {/* Animación del volcán transformándose en logo */}
+                    <svg viewBox="0 0 400 400" className="volcano-animation" role="img" aria-label="Animación Volcán a MirAI">
+                        {/* Triángulo grande del volcán (más ancho, proporción real) que se dibuja y transforma */}
+                        <path className="volcano-outline" d="M200,80 L380,350 L20,350 Z" />
+                        
+                        {/* Logo MirAI que aparece después */}
+                        <g className="mirai-logo-reveal">
+                            <path className="circuito-linea-anim" d="M140,180 L170,180 L190,165" />
+                            <circle className="circuito-anillo-anim" cx="190" cy="165" r="6" />
+                            <path className="circuito-linea-anim" d="M120,210 L170,210 L190,190 L220,190" />
+                            <circle className="circuito-anillo-anim" cx="220" cy="190" r="6" />
+                            <path className="triangulo-anim" d="M190,80 L270,230 L110,230 Z" />
+                            <text x="100" y="310" className="texto-mir-anim">Mir</text>
+                            <text x="230" y="310" className="texto-ai-anim">AI</text>
+                        </g>
+                    </svg>
+                    
                     <div className="visual-content">
-                        <span className="visual-tag">SISTEMA INTEGRADO DE GESTIÓN</span>
                         <h1 className="visual-title">Hub Corporativo</h1>
+                        <h1 className="visual-tag">SISTEMA INTEGRADO DE GESTIÓN</h1>
                         <div className="visual-divider"></div>
-                        {/*}
-                        <p className="visual-text">
-                            Acceso unificado a las herramientas de gestión para Provefrut, Nintanga y Procongelados.
-                        </p>
-                        */}
                     </div>
                     
                     {/* Aquí van los logos blancos, limpios, al pie */}
@@ -84,8 +95,26 @@ const LoginPage = () => {
             {/* DERECHA: FORMULARIO */}
             <div className="login-form-section">
                 <div className="form-container">
-                    <div className="form-header">                        
-                        <img src={isotipoColor} alt="Icono" className="form-logo-icon" /> 
+                    <div className="form-header">
+                        {/* Logo del volcán con explosión */}
+                        <svg className="logo-svg-login" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                            {/* Partículas de explosión */}
+                            <circle className="particle particle-1" cx="100" cy="60" r="3" fill="#75c900"/>
+                            <circle className="particle particle-2" cx="100" cy="60" r="3" fill="#23b7e5"/>
+                            <circle className="particle particle-3" cx="100" cy="60" r="3" fill="#c2185b"/>
+                            <circle className="particle particle-4" cx="100" cy="60" r="3" fill="#f59e0b"/>
+                            <circle className="particle particle-5" cx="100" cy="60" r="3" fill="#9b59b6"/>
+                            <circle className="particle particle-6" cx="100" cy="60" r="3" fill="#75c900"/>
+                            <circle className="particle particle-7" cx="100" cy="60" r="3" fill="#23b7e5"/>
+                            <circle className="particle particle-8" cx="100" cy="60" r="3" fill="#c2185b"/>
+                            
+                            {/* Base del volcán con animación de colores */}
+                            <path id="base" className="volcano-base-animated" d="M 10 120 Q 100 140 190 120 L 185 125 Q 100 145 15 125 Z" fill="#8A3D9E" stroke="#6b2d7d" strokeWidth="2"/>
+                            {/* Volcán principal con líneas más gruesas */}
+                            <path id="volcano-main" d="M 60 122 L 90 60 L 110 60 L 140 122 Z" fill="#4CAF50" stroke="#2d5f2f" strokeWidth="3"/>
+                            {/* Nieve */}
+                            <path id="volcano-snow" d="M 90 60 L 110 60 L 125 91 L 120 88 L 115 91 L 110 88 L 105 91 L 100 88 L 95 91 L 90 88 L 85 91 L 80 88 L 75 91 Z" fill="#FFFFFF" stroke="#e0e0e0" strokeWidth="1"/>
+                        </svg>
                         <h2>Iniciar Sesión</h2>
                         <p>Ingrese sus credenciales para acceder.</p>
                     </div>

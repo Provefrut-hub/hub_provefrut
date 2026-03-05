@@ -104,3 +104,64 @@
 /* Estado Deshabilitado */
 .app-card.disabled { opacity: 0.6; cursor: not-allowed; background: var(--slate-50); }
 .app-card.disabled:hover { transform: none; box-shadow: none; border-color: var(--slate-200); }
+
+/* --- LOGO MIRAI EN DASHBOARD --- */
+.mirai-logo-dashboard {
+    width: 50px;
+    height: 50px;
+    overflow: visible;
+    flex-shrink: 0;
+}
+
+.mirai-logo-dashboard .triangulo {
+    fill: none;
+    stroke: var(--primary, #285d2f);
+    stroke-width: 16;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.mirai-logo-dashboard .circuito-linea {
+    fill: none;
+    stroke: var(--primary, #285d2f);
+    stroke-width: 11;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: cicloStrokeDashboard 9s ease-in-out infinite;
+}
+
+.mirai-logo-dashboard .circuito-anillo {
+    fill: #ffffff;
+    stroke: var(--primary, #285d2f);
+    stroke-width: 5;
+    animation: cicloStrokeDashboard 9s ease-in-out infinite;
+}
+
+.mirai-logo-dashboard .texto-mir {
+    fill: var(--primary, #285d2f);
+    font-size: 90px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.mirai-logo-dashboard .texto-ai {
+    fill: var(--primary, #285d2f);
+    font-size: 90px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    animation: cicloFillDashboard 9s ease-in-out infinite;
+}
+
+@keyframes cicloFillDashboard {
+    0%   { fill: #75c900; }
+    33%  { fill: #23b7e5; }
+    66%  { fill: #c2185b; }
+    100% { fill: #75c900; }
+}
+
+@keyframes cicloStrokeDashboard {
+    0%   { stroke: #75c900; }
+    33%  { stroke: #23b7e5; }
+    66%  { stroke: #c2185b; }
+    100% { stroke: #75c900; }
+}

@@ -103,6 +103,20 @@ class ModuloSistema(models.Model):
              ("sistema_gestion_usuarios", "SISTEMA: Gestión de usuarios"),
         ]
 
+class ModuloMantenimiento(models.Model):
+    """
+    Contenedor de permisos para el Sistema de Gestión de Mantenimiento.
+    """
+    class Meta:
+        managed = False
+        default_permissions = ()
+        permissions = [
+            ("mantenimiento_acceso", "MANTENIMIENTO: Ingreso al módulo"),
+            ("mantenimiento_crear_orden", "MANTENIMIENTO: Crear órdenes de trabajo"),
+            ("mantenimiento_aprobar_orden", "MANTENIMIENTO: Aprobar órdenes (Jefatura)"),
+            ("mantenimiento_ver_reportes", "MANTENIMIENTO: Ver reportes de mantenimiento"),
+        ]
+
 
 # ==============================================================================
 # 4. ENTIDADES (TENANTS)

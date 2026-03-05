@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirAI Logo - Versión Final Producción</title>
+    <meta name="description" content="Logo animado de MirAI con soporte para modo oscuro y accesibilidad">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. CONFIGURACIÓN DE COLORES (VARIABLES) --- */
+        :root {
+            /* Colores Base */
+            --bg-color: #ffffff;      /* Fondo normal */
+            --main-dark: #002905;     /* Color para 'mir' y Marco */
+            
+            /* Colores de la Marca (Ciclo) */
+            --lime-green: #75c900;    /* Base */
+            --company-blue: #23b7e5;  /* Variación Azul */
+            --company-purple: #9b59b6;/* Variación Morada */
+        }
+
+        /* --- 2. SOPORTE MODO OSCURO (AUTOMÁTICO) --- */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;  /* Fondo oscuro */
+                --main-dark: #ffffff; /* 'mir' y Marco ahora son blancos para contraste */
+            }
+        }
+
+        /* --- ESTILOS GENERALES --- */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color); /* Usa la variable dinámica */
+            font-family: 'Montserrat', sans-serif;
+            transition: background-color 0.5s ease; /* Transición suave si cambias de tema */
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        svg {
+            width: 400px; 
+            height: auto;
+            overflow: visible;
+            cursor: pointer; /* Indica que es interactivo */
+        }
+
+        /* --- 3. ELEMENTOS DEL LOGO --- */
+        
+        /* Marco Triángulo */
+        .triangulo {
+            fill: none;
+            stroke: var(--main-dark); /* Color dinámico (verde oscuro o blanco) */
+            stroke-width: 16;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            animation: dibujar 2s ease-out forwards;
+        }
+
+        /* Líneas de Circuito */
+        .circuito-linea {
+            fill: none;
+            stroke: var(--lime-green);
+            stroke-width: 11;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+            /* Entrada + Ciclo Infinito */
+            animation: 
+                dibujar 1.5s ease-out 1.2s forwards,
+                cicloStroke 9s ease-in-out 3.5s infinite;
+        }
+
+        /* Anillos */
+        .circuito-anillo {
+            fill: var(--bg-color); /* El centro del anillo se adapta al fondo */
+            stroke: var(--lime-green);
+            stroke-width: 5;
+            transform-box: fill-box;
+            transform-origin: center;
+            transform: scale(0);
+            /* Pop + Ciclo Infinito */
+            animation: 
+                popAnillo 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s forwards,
+                cicloStroke 9s ease-in-out 3.5s infinite;
+        }
+
+        /* Texto 'mir' */
+        .texto-mir {
+            fill: var(--main-dark); /* Color dinámico */
+            font-size: 90px;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: subirTexto 1s ease-out 0.5s forwards;
+        }
+
+        /* Texto 'ai' */
+        .texto-ai {
+            fill: var(--lime-green);
+            font-size: 90px;
+            font-weight: 700;
+            opacity: 0;
+            /* Entrada + Ciclo Infinito */
+            animation: 
+                aparecerAi 1s ease-out 2.5s forwards,
+                cicloFill 9s ease-in-out 3.5s infinite;
+        }
+
+        /* --- 4. INTERACTIVIDAD (HOVER TURBO) --- */
+        /* Al pasar el mouse, el ciclo de 9s se acelera a 2s */
+        svg:hover .circuito-linea,
+        svg:hover .circuito-anillo,
+        svg:hover .texto-ai {
+            animation-duration: 1.5s, 2s !important; /* Mantiene la entrada, acelera el bucle */
+        }
+
+        /* --- KEYFRAMES DE ENTRADA --- */
+        @keyframes dibujar { to { stroke-dashoffset: 0; } }
+        @keyframes popAnillo { 0% {transform:scale(0);} 80% {transform:scale(1.15);} 100% {transform:scale(1);} }
+        @keyframes subirTexto { to { opacity: 1; transform: translateY(0); } }
+        @keyframes aparecerAi { 0% { opacity: 0; filter: blur(5px); } 100% { opacity: 1; filter: blur(0); } }
+
+        /* --- KEYFRAMES DE CICLO DE COLOR --- */
+        
+        /* Para relleno (Texto) */
+        @keyframes cicloFill {
+            0%   { fill: var(--lime-green); }
+            33%  { fill: var(--company-blue); }
+            66%  { fill: var(--company-purple); }
+            100% { fill: var(--lime-green); }
+        }
+
+        /* Para líneas (Borde) */
+        @keyframes cicloStroke {
+            0%   { stroke: var(--lime-green); }
+            33%  { stroke: var(--company-blue); }
+            66%  { stroke: var(--company-purple); }
+            100% { stroke: var(--lime-green); }
+        }
+
+        .replay-btn {
+            margin-top: 40px;
+            padding: 10px 25px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #333;
+            font-weight: bold;
+        }
+        @media (prefers-color-scheme: dark) {
+            .replay-btn { background: #333; color: #fff; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <svg viewBox="0 0 350 320" role="img" aria-labelledby="title desc">
+            <title id="title">Logo de MirAI</title>
+            <desc id="desc">Un logotipo triangular animado con circuitos conectando las letras 'Mir' y 'AI', cambiando de colores.</desc>
+            
+            <path class="circuito-linea" d="M115,155 L155,155 L180,130" />
+            <circle class="circuito-anillo" cx="180" cy="130" r="8" />
+
+            <path class="circuito-linea" d="M90,195 L155,195 L180,170 L215,170" />
+            <circle class="circuito-anillo" cx="215" cy="170" r="8" />
+
+            <path class="triangulo" d="M175,40 L275,220 L75,220 Z" />
+
+            <text x="55" y="300" class="texto-mir">Mir</text>
+            <text x="218" y="300" class="texto-ai">AI</text>
+            
+        </svg>
+
+        <br>
+        <button class="replay-btn" onclick="location.reload()">Repetir Entrada</button>
+    </div>
+
+</body>
+</html>

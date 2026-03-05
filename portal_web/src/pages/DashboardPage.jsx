@@ -84,7 +84,15 @@ const DashboardPage = () => {
             <header className="topbar">
                 <div className="topbar-left">
                     <div className="logo-area">
-                        <span className="logo-icon">🏢</span>
+                        <svg viewBox="0 0 350 320" className="mirai-logo-dashboard" role="img" aria-label="Logo MirAI">
+                            <path className="circuito-linea" d="M115,155 L155,155 L180,130" />
+                            <circle className="circuito-anillo" cx="180" cy="130" r="8" />
+                            <path className="circuito-linea" d="M90,195 L155,195 L180,170 L215,170" />
+                            <circle className="circuito-anillo" cx="215" cy="170" r="8" />
+                            <path className="triangulo" d="M175,40 L275,220 L75,220 Z" />
+                            <text x="55" y="300" className="texto-mir">Mir</text>
+                            <text x="218" y="300" className="texto-ai">AI</text>
+                        </svg>
                         <div>
                             <h1 className="company-name">{user.empresa_nombre}</h1>
                             <span className="portal-badge">Hub Corporativo</span>
@@ -142,7 +150,7 @@ const DashboardPage = () => {
                         <AppCard 
                             title="Chatbot de Ayuda"
                             desc="Asistente de Políticas y Preguntas Frecuentes (FAQ)"
-                            icon="🤖"
+                            icon="🧠"
                             color="#6366f1"
                             active={true}
                             onClick={() => lanzarApp(import.meta.env.VITE_URL_CHATBOT)}
@@ -158,6 +166,18 @@ const DashboardPage = () => {
                             color="#f59e0b"
                             active={true}
                             onClick={() => alert("Próximamente")}
+                        />
+                    )}
+
+                    {/* 4. MANTENIMIENTO */}
+                    {user.permisos?.includes('core.mantenimiento_acceso') && (
+                        <AppCard 
+                            title="Gestión de Mantenimiento"
+                            desc="Órdenes de trabajo, equipos y mantenimiento preventivo."
+                            icon="🔧"
+                            color="#712d7d"
+                            active={true}
+                            onClick={() => lanzarApp(import.meta.env.VITE_URL_MANTENIMIENTO)}
                         />
                     )}
                 </div>
