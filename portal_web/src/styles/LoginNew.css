@@ -5,35 +5,83 @@
 /* Reset básico para asegurar full screen */
 .login-layout {
     display: flex;
-    height: 100vh;
+    flex-direction: column;
+    min-height: 100vh;
     width: 100%;
-    overflow: hidden;
+    overflow-y: auto;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #ffffff;
+    background-color: #1a3d1f;
+    /* En móvil: fondo con imagen */
+    background-image: url('../assets/images/login-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-/* En móviles muy pequeños, permitir scroll */
-@media (max-width: 480px) {
+@media (min-width: 960px) {
     .login-layout {
-        overflow-y: auto;
+        flex-direction: row;
+        overflow: hidden;
+        background-image: none;
+        background-color: #ffffff;
         min-height: 100vh;
-        height: auto;
     }
+}
+
+/* --- HEADER MÓVIL --- */
+.mobile-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1.5rem 1rem;
+    background: rgba(255, 255, 255, 0.85); /* Fondo blanco semi-transparente */
+    order: 1;
+}
+
+@media (min-width: 960px) {
+    .mobile-header {
+        display: none; /* Oculto en desktop */
+    }
+}
+
+.mobile-header-text {
+    flex: 1;
+    padding-top: 0.5rem;
+}
+
+.mobile-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a4d1f; /* Verde oscuro */
+    margin: 0 0 0.3rem 0;
+    padding-left: 1rem;
+    border-left: 4px solid #78b21f; /* Línea verde claro al costado */
+}
+
+.mobile-subtitle {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    color: #4a4a4a; /* Gris oscuro */
+    margin: 0;
 }
 
 /* --- SECCIÓN IZQUIERDA (VISUAL) --- */
 .login-visual-section {
-    flex: 1.3; /* Un poco más ancha que el form */
+    flex: 1.3;
     position: relative;
-    background-image: url('../assets/images/login-bg.png'); /* Tu foto de campo */
+    background-image: url('../assets/images/login-bg.png');
     background-size: cover;
     background-position: center;
     overflow: hidden;
-    display: none; /* Mobile first: oculto en celus */
+    display: none; /* Oculto en móvil */
 }
 
 @media (min-width: 960px) {
-    .login-visual-section { display: block; }
+    .login-visual-section {
+        display: block; /* Visible en desktop */
+    }
 }
 
 /* El Overlay es clave: Oscuro y elegante */
@@ -71,83 +119,89 @@
 
 .visual-content {
     margin-top: auto;
-    margin-bottom: auto;
+    margin-bottom: 2rem;
 }
 
 @media (min-width: 960px) {
     .visual-content {
-        margin-top: 4rem;
+        margin-bottom: 2rem;
     }
 }
 
 @media (min-width: 1200px) {
     .visual-content {
-        margin-top: 5rem;
+        margin-bottom: 2rem;
     }
 }
 
 @media (min-width: 1440px) {
     .visual-content {
-        margin-top: 6rem;
+        margin-bottom: 2rem;
     }
 }
 
 .visual-tag {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 600;
-    opacity: 0.8;
+    opacity: 1;
     display: block;
-    margin-bottom: 1rem;
-    color: #a8e6cf;
+    margin-bottom: 0.8rem;
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 @media (min-width: 1200px) {
     .visual-tag {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
     }
 }
 
 .visual-title {
-    font-size: 2.5rem; /* Responsive base */
+    font-size: 2rem;
     font-weight: 700;
     line-height: 1.1;
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.8rem 0;
     letter-spacing: -1px;
-    background: linear-gradient(135deg, #ffffff 0%, #a8e6cf 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     font-family: 'Montserrat', sans-serif;
 }
 
 @media (min-width: 960px) {
     .visual-title {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 }
 
 @media (min-width: 1200px) {
     .visual-title {
-        font-size: 3.5rem;
-        margin: 0 0 1.5rem 0;
+        font-size: 3rem;
+        margin: 0 0 1rem 0;
     }
 }
 
 @media (min-width: 1440px) {
     .visual-title {
-        font-size: 4rem;
+        font-size: 3.5rem;
     }
 }
 
 .visual-divider {
-    width: 60px;
+    width: 250px;
     height: 4px;
-    background: #78b21f; /* Verde acento Provefrut */
-    margin-bottom: 1.5rem;
+    background: #78b21f;
+    margin-bottom: 3rem; /* Más espacio para que quede sobre los logos */
     border-radius: 2px;
+}
+
+@media (min-width: 1200px) {
+    .visual-divider {
+        width: 280px;
+        height: 5px;
+        margin-bottom: 4rem; /* Más espacio en pantallas grandes */
+    }
 }
 
 .visual-text {
@@ -172,9 +226,9 @@
 
 /* Footer con logos blancos */
 .visual-footer {
-    border-top: 1px solid rgba(255,255,255,0.15);
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
+    border-top: none; /* Quitar línea superior */
+    padding-top: 0;
+    margin-top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -183,15 +237,15 @@
 
 @media (min-width: 1200px) {
     .visual-footer {
-        padding-top: 2rem;
-        margin-top: 2rem;
+        padding-top: 0;
+        margin-top: 0;
     }
 }
 
 .logos-group-img {
     max-width: 100%;
     height: auto;
-    max-height: 40px; /* Más pequeño en pantallas pequeñas */
+    max-height: 50px;
     object-fit: contain;
     opacity: 0.9;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
@@ -199,7 +253,7 @@
 
 @media (min-width: 1200px) {
     .logos-group-img {
-        max-height: 50px;
+        max-height: 55px;
     }
 }
 
@@ -211,13 +265,21 @@
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.85); /* Fondo blanco semi-transparente para ver la imagen */
     position: relative;
+    order: 2;
 }
 
 @media (min-width: 768px) {
     .login-form-section {
         padding: 2rem;
+    }
+}
+
+@media (min-width: 960px) {
+    .login-form-section {
+        order: 0;
+        background: #ffffff; /* Opaco en desktop */
     }
 }
 
@@ -246,7 +308,7 @@
 }
 
 .form-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: #111827;
     margin: 0 0 0.5rem 0;
     font-weight: 700;
@@ -260,7 +322,7 @@
 }
 
 .form-header p {
-    color: #6b7280; /* Gris medio */
+    color: #6b7280;
     font-size: 0.95rem;
     margin: 0;
 }
@@ -353,7 +415,7 @@
 .btn-submit {
     width: 100%;
     padding: 0.875rem;
-    background-color: #285d2f; /* Verde Corporativo */
+    background-color: #285d2f;
     color: white;
     font-weight: 600;
     font-size: 1rem;
@@ -401,15 +463,20 @@
 
 /* Footer solo móvil */
 .form-footer-mobile {
-    margin-top: 3rem;
+    margin-top: auto;
     text-align: center;
-    color: #9ca3af;
+    color: #4a4a4a;
     font-size: 0.75rem;
     display: block;
+    order: 3;
+    padding: 2rem 1.5rem;
+    background: transparent; /* Sin fondo */
 }
 
 @media (min-width: 960px) {
-    .form-footer-mobile { display: none; }
+    .form-footer-mobile { 
+        display: none; 
+    }
 }
 
 /* --- Wrapper para input con icono --- */
@@ -452,7 +519,7 @@
 
 /* --- LOGO MIRAI ANIMADO --- */
 .mirai-logo {
-    width: 180px;
+    width: 200px;
     height: auto;
     margin: 0 auto 1.5rem;
     display: block;
@@ -556,398 +623,4 @@
 .mirai-logo:hover .circuito-anillo,
 .mirai-logo:hover .texto-ai {
     animation-duration: 1.5s, 2s !important;
-}
-
-/* --- TÍTULO MIRAI PRINCIPAL --- */
-.mirai-title {
-    font-size: 6rem;
-    font-weight: 800;
-    text-align: center;
-    margin: 3rem 0;
-    font-family: 'Montserrat', sans-serif;
-    letter-spacing: -2px;
-    color: #ffffff; /* Letras blancas */
-    animation: mirShadowCycle 9s ease-in-out infinite;
-}
-
-.ai-accent {
-    color: #ffffff; /* Letras blancas */
-}
-
-/* Animación para "Mir" - Sombra con colores oscuros */
-@keyframes mirShadowCycle {
-    0% {
-        text-shadow: 
-            0 0 20px rgba(117, 201, 0, 0.8),
-            0 0 40px rgba(117, 201, 0, 0.5),
-            0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-    33% {
-        text-shadow: 
-            0 0 20px rgba(35, 183, 229, 0.8),
-            0 0 40px rgba(35, 183, 229, 0.5),
-            0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-    66% {
-        text-shadow: 
-            0 0 20px rgba(194, 24, 91, 0.8),
-            0 0 40px rgba(194, 24, 91, 0.5),
-            0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-    100% {
-        text-shadow: 
-            0 0 20px rgba(117, 201, 0, 0.8),
-            0 0 40px rgba(117, 201, 0, 0.5),
-            0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-}
-
-/* Responsive para móviles */
-@media (max-width: 960px) {
-    .mirai-title {
-        font-size: 4rem;
-        margin: 2rem 0;
-    }
-}
-
-/* --- ANIMACIÓN VOLCÁN A MIRAI --- */
-.volcano-animation {
-    width: 250px;
-    height: 250px;
-    margin: 1.5rem auto;
-    display: block;
-    overflow: visible;
-}
-
-@media (min-width: 960px) {
-    .volcano-animation {
-        width: 280px;
-        height: 280px;
-        margin: 2rem auto;
-    }
-}
-
-@media (min-width: 1200px) {
-    .volcano-animation {
-        width: 300px;
-        height: 300px;
-    }
-}
-
-@media (min-width: 1440px) {
-    .volcano-animation {
-        width: 350px;
-        height: 350px;
-        margin: 2.5rem auto;
-    }
-}
-
-/* Contorno del volcán que se dibuja y transforma */
-.volcano-outline {
-    fill: none;
-    stroke: #ffffff;
-    stroke-width: 4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 1200;
-    stroke-dashoffset: 1200;
-    transform-origin: center;
-    animation: 
-        drawVolcano 2s ease-out forwards,
-        morphToLogo 1.5s ease-in-out 2s forwards,
-        fadeOutVolcano 0.5s ease-out 3.3s forwards;
-}
-
-/* Logo MirAI que se construye progresivamente */
-.mirai-logo-reveal {
-    opacity: 1;
-    transform: scale(1);
-    transform-origin: center;
-}
-
-.mirai-logo-reveal .triangulo-anim {
-    fill: none;
-    stroke: #ffffff;
-    stroke-width: 12;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 800;
-    stroke-dashoffset: 800;
-    animation: drawTriangle 1.5s ease-out 3.5s forwards;
-}
-
-.mirai-logo-reveal .circuito-linea-anim {
-    fill: none;
-    stroke: #75c900;
-    stroke-width: 8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 300;
-    stroke-dashoffset: 300;
-    animation: 
-        drawCircuit 1s ease-out 5s forwards,
-        cicloStroke 9s ease-in-out 6.5s infinite;
-}
-
-.mirai-logo-reveal .circuito-anillo-anim {
-    fill: #ffffff;
-    stroke: #75c900;
-    stroke-width: 4;
-    transform-origin: center;
-    transform: scale(0);
-    animation: 
-        popCircle 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 6s forwards,
-        cicloStroke 9s ease-in-out 6.5s infinite;
-}
-
-.mirai-logo-reveal .texto-mir-anim {
-    fill: #ffffff;
-    font-size: 70px;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    opacity: 0;
-    animation: fadeInText 0.8s ease-out 6.5s forwards;
-}
-
-.mirai-logo-reveal .texto-ai-anim {
-    fill: #75c900;
-    font-size: 70px;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    opacity: 0;
-    animation: 
-        fadeInText 0.8s ease-out 7s forwards,
-        cicloFill 9s ease-in-out 8s infinite;
-}
-
-/* Keyframes para la animación del volcán */
-@keyframes drawVolcano {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-@keyframes morphToLogo {
-    0% {
-        d: path("M200,80 L380,350 L20,350 Z");
-        transform: scale(1) translate(0, 0);
-    }
-    100% {
-        d: path("M200,120 L280,280 L120,280 Z");
-        transform: scale(0.8) translate(0, -20px);
-    }
-}
-
-@keyframes fadeOutVolcano {
-    to {
-        opacity: 0;
-    }
-}
-
-@keyframes drawTriangle {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-@keyframes drawCircuit {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-@keyframes popCircle {
-    0% {
-        transform: scale(0);
-    }
-    70% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes fadeInText {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes revealLogo {
-    0% {
-        opacity: 0;
-        transform: scale(0);
-    }
-    60% {
-        transform: scale(1.1);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Reiniciar la animación cada 15 segundos */
-.volcano-animation {
-    animation: restartAnimation 15s infinite;
-}
-
-@keyframes restartAnimation {
-    0%, 100% {
-        opacity: 1;
-    }
-    95% {
-        opacity: 1;
-    }
-    96% {
-        opacity: 0;
-    }
-    97% {
-        opacity: 1;
-    }
-}
-
-/* --- ANIMACIÓN DE EXPLOSIÓN DEL VOLCÁN --- */
-.logo-svg-login {
-    overflow: visible;
-    width: 180px;
-    height: 135px;
-    margin-bottom: 20px;
-}
-
-@media (max-width: 480px) {
-    .logo-svg-login {
-        width: 150px;
-        height: 112px;
-        margin-bottom: 15px;
-    }
-}
-
-@media (min-width: 768px) {
-    .logo-svg-login {
-        width: 200px;
-        height: 150px;
-    }
-}
-
-.particle {
-    opacity: 0;
-    animation: explode 3s ease-out infinite;
-}
-
-.particle-1 {
-    animation-delay: 0s;
-}
-
-.particle-2 {
-    animation-delay: 0.2s;
-}
-
-.particle-3 {
-    animation-delay: 0.4s;
-}
-
-.particle-4 {
-    animation-delay: 0.6s;
-}
-
-.particle-5 {
-    animation-delay: 0.8s;
-}
-
-.particle-6 {
-    animation-delay: 1s;
-}
-
-.particle-7 {
-    animation-delay: 1.2s;
-}
-
-.particle-8 {
-    animation-delay: 1.4s;
-}
-
-@keyframes explode {
-    0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-    }
-    50% {
-        opacity: 0.8;
-    }
-    100% {
-        opacity: 0;
-        transform: translate(var(--tx), var(--ty)) scale(0.3);
-    }
-}
-
-/* Direcciones de explosión para cada partícula */
-.particle-1 {
-    --tx: -30px;
-    --ty: -40px;
-}
-
-.particle-2 {
-    --tx: 30px;
-    --ty: -40px;
-}
-
-.particle-3 {
-    --tx: -40px;
-    --ty: -20px;
-}
-
-.particle-4 {
-    --tx: 40px;
-    --ty: -20px;
-}
-
-.particle-5 {
-    --tx: 0px;
-    --ty: -50px;
-}
-
-.particle-6 {
-    --tx: -20px;
-    --ty: -45px;
-}
-
-.particle-7 {
-    --tx: 20px;
-    --ty: -45px;
-}
-
-.particle-8 {
-    --tx: 0px;
-    --ty: -35px;
-}
-
-/* --- ANIMACIÓN DE LA BASE DEL VOLCÁN (COLORES DE EMPRESAS) --- */
-.volcano-base-animated {
-    animation: changeCompanyColors 9s ease-in-out infinite;
-}
-
-@keyframes changeCompanyColors {
-    0% {
-        fill: #285d2f; /* Verde Provefrut */
-        stroke: #1a4d1f;
-    }
-    33% {
-        fill: #712d7d; /* Morado Nintanga */
-        stroke: #5a2d6b;
-    }
-    66% {
-        fill: #0056b3; /* Azul Procongelados */
-        stroke: #003d82;
-    }
-    100% {
-        fill: #285d2f; /* Verde Provefrut */
-        stroke: #1a4d1f;
-    }
 }

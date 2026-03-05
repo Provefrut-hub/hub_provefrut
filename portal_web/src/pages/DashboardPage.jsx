@@ -71,8 +71,8 @@ const DashboardPage = () => {
     // 3. Construcción: Asegura el protocolo. Si tu variable .env NO tiene https, esto lo arregla en código.
     const finalUrl = cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`;
 
-    // 4. Ejecución
-    window.open(`${finalUrl}/sso-login/#token=${token}`, '_blank', 'noopener,noreferrer');
+    // 4. Ejecución: Abre la aplicación en la misma pestaña (reemplaza el Hub)
+    window.location.href = `${finalUrl}/sso-login/#token=${token}`;
 };
 
     if (!user) return null;
@@ -150,7 +150,7 @@ const DashboardPage = () => {
                         <AppCard 
                             title="Chatbot de Ayuda"
                             desc="Asistente de Políticas y Preguntas Frecuentes (FAQ)"
-                            icon="🧠"
+                            icon="🤖"
                             color="#6366f1"
                             active={true}
                             onClick={() => lanzarApp(import.meta.env.VITE_URL_CHATBOT)}
@@ -169,8 +169,9 @@ const DashboardPage = () => {
                         />
                     )}
 
-                    {/* 4. MANTENIMIENTO */}
-                    {user.permisos?.includes('core.mantenimiento_acceso') && (
+                    {/* 4. MANTENIMIENTO - SOLO NINTANGA */}
+                    {user.permisos?.includes('core.mantenimiento_acceso') && 
+                     (user.empresa_codigo === 'NTG' || user.empresa_nombre?.includes('Nintanga')) && (
                         <AppCard 
                             title="Gestión de Mantenimiento"
                             desc="Órdenes de trabajo, equipos y mantenimiento preventivo."

@@ -3,6 +3,8 @@ import { authService } from '../services/api';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import '../styles/LoginNew.css';
 import logosWhite from '../assets/images/logos-grupo-white.png';
+import logoNutriplus from '/Logo-final-Nutriplus.png';
+import logoProquinoa from '/proquinia.png';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
@@ -59,26 +61,17 @@ const LoginPage = () => {
     return (
         <div className="login-layout">
             
+            {/* Header móvil - visible solo en móvil */}
+            <div className="mobile-header">
+                <div className="mobile-header-text">
+                    <h1 className="mobile-title">Hub Corporativo</h1>
+                    <p className="mobile-subtitle">SISTEMA INTEGRADO DE GESTIÓN</p>
+                </div>
+            </div>
+            
             {/* IZQUIERDA: VISUAL & BRANDING */}
             <div className="login-visual-section">
                 <div className="visual-overlay">
-                    {/* Animación del volcán transformándose en logo */}
-                    <svg viewBox="0 0 400 400" className="volcano-animation" role="img" aria-label="Animación Volcán a MirAI">
-                        {/* Triángulo grande del volcán (más ancho, proporción real) que se dibuja y transforma */}
-                        <path className="volcano-outline" d="M200,80 L380,350 L20,350 Z" />
-                        
-                        {/* Logo MirAI que aparece después */}
-                        <g className="mirai-logo-reveal">
-                            <path className="circuito-linea-anim" d="M140,180 L170,180 L190,165" />
-                            <circle className="circuito-anillo-anim" cx="190" cy="165" r="6" />
-                            <path className="circuito-linea-anim" d="M120,210 L170,210 L190,190 L220,190" />
-                            <circle className="circuito-anillo-anim" cx="220" cy="190" r="6" />
-                            <path className="triangulo-anim" d="M190,80 L270,230 L110,230 Z" />
-                            <text x="100" y="310" className="texto-mir-anim">Mir</text>
-                            <text x="230" y="310" className="texto-ai-anim">AI</text>
-                        </g>
-                    </svg>
-                    
                     <div className="visual-content">
                         <h1 className="visual-title">Hub Corporativo</h1>
                         <h1 className="visual-tag">SISTEMA INTEGRADO DE GESTIÓN</h1>
@@ -87,7 +80,13 @@ const LoginPage = () => {
                     
                     {/* Aquí van los logos blancos, limpios, al pie */}
                     <div className="visual-footer">
-                        <img src={logosWhite} alt="Grupo Corporativo" className="logos-group-img" />
+                        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem'}}>
+                            <img src={logosWhite} alt="Grupo Corporativo" className="logos-group-img" style={{maxHeight: '50px'}} />
+                            <div style={{display: 'flex', alignItems: 'center', gap: '2rem', justifyContent: 'center'}}>
+                                <img src={logoNutriplus} alt="Nutriplus" className="logos-group-img" style={{filter: 'brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2))', maxHeight: '50px'}} />
+                                <img src={logoProquinoa} alt="Proquinoa" className="logos-group-img" style={{filter: 'brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2))', maxHeight: '50px', objectFit: 'contain'}} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -96,27 +95,16 @@ const LoginPage = () => {
             <div className="login-form-section">
                 <div className="form-container">
                     <div className="form-header">
-                        {/* Logo del volcán con explosión */}
-                        <svg className="logo-svg-login" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                            {/* Partículas de explosión */}
-                            <circle className="particle particle-1" cx="100" cy="60" r="3" fill="#75c900"/>
-                            <circle className="particle particle-2" cx="100" cy="60" r="3" fill="#23b7e5"/>
-                            <circle className="particle particle-3" cx="100" cy="60" r="3" fill="#c2185b"/>
-                            <circle className="particle particle-4" cx="100" cy="60" r="3" fill="#f59e0b"/>
-                            <circle className="particle particle-5" cx="100" cy="60" r="3" fill="#9b59b6"/>
-                            <circle className="particle particle-6" cx="100" cy="60" r="3" fill="#75c900"/>
-                            <circle className="particle particle-7" cx="100" cy="60" r="3" fill="#23b7e5"/>
-                            <circle className="particle particle-8" cx="100" cy="60" r="3" fill="#c2185b"/>
-                            
-                            {/* Base del volcán con animación de colores */}
-                            <path id="base" className="volcano-base-animated" d="M 10 120 Q 100 140 190 120 L 185 125 Q 100 145 15 125 Z" fill="#8A3D9E" stroke="#6b2d7d" strokeWidth="2"/>
-                            {/* Volcán principal con líneas más gruesas */}
-                            <path id="volcano-main" d="M 60 122 L 90 60 L 110 60 L 140 122 Z" fill="#4CAF50" stroke="#2d5f2f" strokeWidth="3"/>
-                            {/* Nieve */}
-                            <path id="volcano-snow" d="M 90 60 L 110 60 L 125 91 L 120 88 L 115 91 L 110 88 L 105 91 L 100 88 L 95 91 L 90 88 L 85 91 L 80 88 L 75 91 Z" fill="#FFFFFF" stroke="#e0e0e0" strokeWidth="1"/>
+                        {/* Logo MirAI animado */}
+                        <svg className="mirai-logo" viewBox="0 0 350 320" xmlns="http://www.w3.org/2000/svg">
+                            <path className="circuito-linea" d="M115,155 L155,155 L180,130" />
+                            <circle className="circuito-anillo" cx="180" cy="130" r="8" />
+                            <path className="circuito-linea" d="M90,195 L155,195 L180,170 L215,170" />
+                            <circle className="circuito-anillo" cx="215" cy="170" r="8" />
+                            <path className="triangulo" d="M175,40 L275,220 L75,220 Z" />
+                            <text x="55" y="300" className="texto-mir">Mir</text>
+                            <text x="218" y="300" className="texto-ai">AI</text>
                         </svg>
-                        <h2>Iniciar Sesión</h2>
-                        <p>Ingrese sus credenciales para acceder.</p>
                     </div>
 
                     {error && (
@@ -180,7 +168,14 @@ const LoginPage = () => {
                     </form>
                     
                     <div className="form-footer-mobile">
-                        {/* Solo visible en móvil si la imagen no carga */}
+                        {/* Logos visibles solo en móvil */}
+                        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1rem'}}>
+                            <img src={logosWhite} alt="Grupo Corporativo" style={{maxHeight: '40px', filter: 'brightness(0)'}} />
+                            <div style={{display: 'flex', alignItems: 'center', gap: '1.8rem', justifyContent: 'center'}}>
+                                <img src={logoNutriplus} alt="Nutriplus" style={{maxHeight: '40px', filter: 'brightness(0)'}} />
+                                <img src={logoProquinoa} alt="Proquinoa" style={{maxHeight: '40px', filter: 'brightness(0)', objectFit: 'contain'}} />
+                            </div>
+                        </div>
                         <small>© Grupo Provefrut S.A.</small>
                     </div>
                 </div>
