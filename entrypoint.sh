@@ -5,6 +5,10 @@ set -e
 
 echo "🚀 [BACKEND] Iniciando Entrypoint..."
 
+# 0. Diagnóstico de variables de entorno
+echo "🔍 Verificando variables de entorno..."
+./venv/bin/python test_env.py
+
 # 1. Migraciones (Usando el Python del entorno virtual)
 echo "📦 Aplicando migraciones..."
 ./venv/bin/python manage.py migrate

@@ -231,9 +231,7 @@ class PasswordResetRequestView(APIView):
             email = serializer.validated_data['email']
             
             # Responder inmediatamente al usuario (no esperar el envío del correo)
-            # Esto evita timeouts y mejora la experiencia
             try:
-                # Usamos get() porque el correo debe ser único en el sistema
                 user = User.objects.get(email=email)
                 
                 token = default_token_generator.make_token(user)
@@ -242,18 +240,21 @@ class PasswordResetRequestView(APIView):
                 # Link apunta al Frontend (React)
                 link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}"
                 
-                # Intentar enviar el correo con timeout corto
-                try:
-                    send_mail(
-                        subject='Restablecer Contraseña - Hub Provefrut',
-                        message=f'Hola {user.username}.\n\nUsa este enlace para cambiar tu clave:\n{link}\n\nSi no fuiste tú, ignora este mensaje.',
-                        from_email=settings.DEFAULT_FROM_EMAIL,
-                        recipient_list=[email],
-                        fail_silently=True,  # No fallar si el correo no se envía
-                    )
-                except Exception as e:
-                    # Log del error pero no fallar la petición
-                    print(f"Error enviando correo: {e}")
+                # Por ahora solo logueamos el link (para testing)
+                # TODO: Configurar AWS SES o arreglar Office 365
+                print(f"🔗 Link de recuperación para {email}: {link}")
+                
+                # Comentamos el envío de correo temporalmente para evitar timeouts
+                # try:
+                #     send_mail(
+                #         subject='Restablecer Contraseña - Hub Provefrut',
+                #         message=f'Hola {user.username}.\n\nUsa este enlace para cambiar tu clave:\n{link}\n\nSi no fuiste tú, ignora este mensaje.',
+                #         from_email=settings.DEFAULT_FROM_EMAIL,
+                #         recipient_list=[email],
+                #         fail_silently=True,
+                #     )
+                # except Exception as e:
+                #     print(f"Error enviando correo: {e}")
                 
             except User.DoesNotExist:
                 # Silent Fail: No revelamos si el correo existe o no
