@@ -29,6 +29,9 @@ COPY ./entrypoint.sh /app/entrypoint.sh
 RUN sed -i 's/\r$//g' /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
+# 7.1. Crear symlink de python a python3 (compatibilidad)
+RUN ln -s /usr/local/bin/python3 /usr/local/bin/python
+
 # 8. Puerto Interno
 EXPOSE 8000
 
