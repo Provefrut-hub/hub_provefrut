@@ -16,4 +16,5 @@ echo "🎨 Recolectando estáticos..."
 # 3. Iniciar Servidor
 echo "🔥 Iniciando Gunicorn..."
 # IMPORTANTE: Usar 'exec' transfiere el PID 1 a Gunicorn
-exec ./venv/bin/gunicorn hub_core.wsgi:application --bind 0.0.0.0:8000
+# Timeout aumentado a 120 segundos para operaciones de correo
+exec ./venv/bin/gunicorn hub_core.wsgi:application --bind 0.0.0.0:8000 --timeout 120
