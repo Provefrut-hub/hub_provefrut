@@ -8,6 +8,7 @@ const ForgotPasswordPage = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [enviado, setEnviado] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,6 +25,9 @@ const ForgotPasswordPage = () => {
             setLoading(false);
         }
     };
+
+    setMessage('Si el correo existe en nuestro sistema, recibirás un enlace de recuperación en breve.');
+    setEnviado(true);
 
     return (
         <div className="auth-container">
@@ -52,8 +56,8 @@ const ForgotPasswordPage = () => {
                         />
                     </div>
                     
-                    <button type="submit" className="btn-auth" disabled={loading}>
-                        {loading ? <span className="spinner-sm"></span> : 'Enviar Enlace de Recuperación'}
+                    <button type="submit" className="btn-auth" disabled={loading || enviado}>
+                        {loading ? <span className="spinner-sm"></span> : enviado ? 'Enlace enviado ✓' : 'Enviar Enlace de Recuperación'}
                     </button>
                 </form>
 

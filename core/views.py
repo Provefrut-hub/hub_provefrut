@@ -234,18 +234,14 @@ class PasswordResetRequestView(APIView):
                 link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}"
 
                 def enviar_correo():
-                    try:
-                        send_mail(
-                            subject='Restablecer Contraseña - Hub Provefrut',
-                            message=f'Hola {user.first_name} {user.last_name}.\n\nUsa este enlace:\n{link}\n\nSi no fuiste tú, ignora este mensaje.',
-                            from_email=settings.DEFAULT_FROM_EMAIL,
-                            recipient_list=[email],
-                            fail_silently=True,  # <-- cambia a False
+                    send_mail(
+                        subject='Restablecer Contraseña - Hub Provefrut',
+                        message=f'Hola {user.first_name} {user.last_name}.\n\nUsa este enlace para restablecer tu contraseña:\n{link}\n\nEste enlace expira en 24 horas.\n\nSi no solicitaste este cambio, ignora este mensaje.',
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        recipient_list=[email],
+                        fail_silently=False,  # <-- cambiar esto
                         )
-                        print(f"✅ Correo enviado a {email}")
-                    except Exception as e:
-                        print(f"❌ Error enviando correo: {e}")  # esto aparecerá en los logs
-
+                        
                 threading.Thread(target=enviar_correo).start()
 
             except User.DoesNotExist:
