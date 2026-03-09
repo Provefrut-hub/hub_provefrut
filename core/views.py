@@ -33,6 +33,7 @@ from .serializers import (
     PasswordResetConfirmSerializer
 )
 
+import threading
 
 # ==============================================================================
 # 1. AUTENTICACIÓN INICIAL (LOGIN)
@@ -219,41 +220,41 @@ class DelegarPermisosView(APIView):
 # ==============================================================================
 
 class PasswordResetRequestView(APIView):
-    """
-    Endpoint: POST /api/password-reset/
-    Paso 1: El usuario olvidó su clave. Envía un link al correo.
-    """
-    permission_classes = [] # Acceso anónimo permitido
+    permission_classes = []
 
     def post(self, request):
         serializer = PasswordResetRequestSerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data['email']
-            print(f"📧 Email recibido: '{email}'")  # <-- agrega esto
             
             try:
                 user = User.objects.get(email=email)
-                print(f"✅ Usuario encontrado: {user.username}")
                 token = default_token_generator.make_token(user)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
                 link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}"
-                
-                send_mail(
-                    subject='Restablecer Contraseña - Hub Provefrut',
-                    message=f'Hola {user.username}.\n\nEnlace:\n{link}',
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[email],
-                    fail_silently=False,
-                )
-                
+
+                # Enviar correo en hilo separado para no bloquear la respuesta
+                def enviar_correo():
+                    try:
+                        send_mail(
+                            subject='Restablecer Contraseña - Hub Provefrut',
+                            message=f'Hola {user.username}.\n\nUsa este enlace:\n{link}\n\nSi no fuiste tú, ignora este mensaje.',
+                            from_email=settings.DEFAULT_FROM_EMAIL,
+                            recipient_list=[email],
+                            fail_silently=True,
+                        )
+                        print(f"✅ Correo enviado a {email}")
+                    except Exception as e:
+                        print(f"❌ Error: {e}")
+
+                hilo = threading.Thread(target=enviar_correo)
+                hilo.start()
+
             except User.DoesNotExist:
                 pass
-            except Exception as e:
-                # Retornar el error real para depuración
-                return Response({"error": str(e)}, status=500)
-            
+
             return Response({"mensaje": "Se han enviado instrucciones a tu correo."}, status=200)
-        
+
         return Response(serializer.errors, status=400)
             
 class PasswordResetConfirmView(APIView):
