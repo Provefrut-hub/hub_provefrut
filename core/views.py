@@ -240,7 +240,7 @@ class PasswordResetRequestView(APIView):
                             message=f'Hola {user.first_name} {user.last_name}.\n\nUsa este enlace:\n{link}\n\nSi no fuiste tú, ignora este mensaje.',
                             from_email=settings.DEFAULT_FROM_EMAIL,
                             recipient_list=[email],
-                            fail_silently=False,  # <-- cambia a False
+                            fail_silently=True,  # <-- cambia a False
                         )
                         print(f"✅ Correo enviado a {email}")
                     except Exception as e:
