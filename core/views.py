@@ -229,43 +229,33 @@ class PasswordResetRequestView(APIView):
         serializer = PasswordResetRequestSerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data['email']
+            print(f"📧 Email recibido: '{email}'")  # <-- agrega esto
             
-            # Responder inmediatamente al usuario (no esperar el envío del correo)
             try:
                 user = User.objects.get(email=email)
-                
+                print(f"✅ Usuario encontrado: {user.username}")
                 token = default_token_generator.make_token(user)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
-                
-                # Link apunta al Frontend (React)
                 link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}"
                 
-                # Por ahora solo logueamos el link (para testing)
-                # TODO: Configurar AWS SES o arreglar Office 365
-                print(f"🔗 Link de recuperación para {email}: {link}")
-                
-                # Comentamos el envío de correo temporalmente para evitar timeouts
-                # try:
-                #     send_mail(
-                #         subject='Restablecer Contraseña - Hub Provefrut',
-                #         message=f'Hola {user.username}.\n\nUsa este enlace para cambiar tu clave:\n{link}\n\nSi no fuiste tú, ignora este mensaje.',
-                #         from_email=settings.DEFAULT_FROM_EMAIL,
-                #         recipient_list=[email],
-                #         fail_silently=True,
-                #     )
-                # except Exception as e:
-                #     print(f"Error enviando correo: {e}")
+                send_mail(
+                    subject='Restablecer Contraseña - Hub Provefrut',
+                    message=f'Hola {user.username}.\n\nEnlace:\n{link}',
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
                 
             except User.DoesNotExist:
-                # Silent Fail: No revelamos si el correo existe o no
-                pass 
+                pass
+            except Exception as e:
+                # Retornar el error real para depuración
+                return Response({"error": str(e)}, status=500)
             
-            # Siempre responder con éxito (seguridad)
             return Response({"mensaje": "Se han enviado instrucciones a tu correo."}, status=200)
         
         return Response(serializer.errors, status=400)
-
-
+            
 class PasswordResetConfirmView(APIView):
     """
     Endpoint: POST /api/password-reset-confirm/
