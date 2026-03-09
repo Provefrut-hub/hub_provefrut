@@ -120,7 +120,7 @@ const LoginPage = () => {
                                 type="text" 
                                 placeholder="nombre.apellido"
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={(e) => setUsername(e.target.value.toLowerCase())}
                                 disabled={isLoading}
                                 autoFocus
                             />

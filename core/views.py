@@ -45,6 +45,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     adicional (Empresas disponibles, alertas de seguridad) junto con el token.
     """
     def validate(self, attrs):
+        # Convertir username a minúsculas antes de validar
+        if 'username' in attrs:
+            attrs['username'] = attrs['username'].lower()
+        
         # Validación estándar (Usuario/Password)
         data = super().validate(attrs)
         
@@ -225,7 +229,7 @@ class PasswordResetRequestView(APIView):
     def post(self, request):
         serializer = PasswordResetRequestSerializer(data=request.data)
         if serializer.is_valid():
-            email = serializer.validated_data['email']
+            email = serializer.validated_data['email'].lower()  # Convertir a minúsculas
             
             try:
                 user = User.objects.get(email=email)
@@ -241,7 +245,7 @@ class PasswordResetRequestView(APIView):
                         recipient_list=[email],
                         fail_silently=False,  # <-- cambiar esto
                         )
-                        
+
                 threading.Thread(target=enviar_correo).start()
 
             except User.DoesNotExist:
