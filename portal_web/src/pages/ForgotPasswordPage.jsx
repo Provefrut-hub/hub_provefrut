@@ -19,15 +19,13 @@ const ForgotPasswordPage = () => {
         try {
             await authService.requestPasswordReset(email);
             setMessage('Si el correo existe en nuestro sistema, recibirás un enlace de recuperación en breve.');
+            setEnviado(true);
         } catch (err) {
             setError('Ocurrió un problema al procesar tu solicitud. Inténtalo más tarde.');
         } finally {
             setLoading(false);
         }
     };
-
-    setMessage('Si el correo existe en nuestro sistema, recibirás un enlace de recuperación en breve.');
-    setEnviado(true);
 
     return (
         <div className="auth-container">
