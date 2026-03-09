@@ -237,13 +237,14 @@ class PasswordResetRequestView(APIView):
                     try:
                         send_mail(
                             subject='Restablecer Contraseña - Hub Provefrut',
-                            message=f'Hola {user.username}.\n\nUsa este enlace:\n{link}\n\nSi no fuiste tú, ignora este mensaje.',
+                            message=f'Hola {user.first_name} {user.last_name}.\n\nUsa este enlace:\n{link}\n\nSi no fuiste tú, ignora este mensaje.',
                             from_email=settings.DEFAULT_FROM_EMAIL,
                             recipient_list=[email],
-                            fail_silently=True,
+                            fail_silently=False,  # <-- cambia a False
                         )
+                        print(f"✅ Correo enviado a {email}")
                     except Exception as e:
-                        print(f"❌ Error: {e}")
+                        print(f"❌ Error enviando correo: {e}")  # esto aparecerá en los logs
 
                 threading.Thread(target=enviar_correo).start()
 
