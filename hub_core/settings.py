@@ -173,11 +173,33 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Lista de orígenes confiables (ej: http://localhost:5173, https://hub.provefrut.com)
 cors_origins_raw = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:5173')
-CORS_ALLOWED_ORIGINS = cors_origins_raw.split(',')
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in cors_origins_raw.split(',')]
 
 # Para cookies seguras y POST requests
 csrf_origins_raw = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:5173')
-CSRF_TRUSTED_ORIGINS = csrf_origins_raw.split(',')
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins_raw.split(',')]
+
+# Configuraciones adicionales de CORS para producción
+CORS_ALLOW_CREDENTIALS = True  # Permite cookies y autenticación
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 
 
 # ==============================================================================
