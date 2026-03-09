@@ -233,7 +233,6 @@ class PasswordResetRequestView(APIView):
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
                 link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}"
 
-                # Enviar correo en hilo separado para no bloquear la respuesta
                 def enviar_correo():
                     try:
                         send_mail(
@@ -243,16 +242,15 @@ class PasswordResetRequestView(APIView):
                             recipient_list=[email],
                             fail_silently=True,
                         )
-                        print(f"✅ Correo enviado a {email}")
                     except Exception as e:
                         print(f"❌ Error: {e}")
 
-                hilo = threading.Thread(target=enviar_correo)
-                hilo.start()
+                threading.Thread(target=enviar_correo).start()
 
             except User.DoesNotExist:
                 pass
 
+            # Esta línea debe estar FUERA del try, al mismo nivel
             return Response({"mensaje": "Se han enviado instrucciones a tu correo."}, status=200)
 
         return Response(serializer.errors, status=400)
